@@ -1,22 +1,58 @@
+/* PromptBox Toggle Button */
+.prompt-toggle-btn {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.prompt-toggle-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.prompt-toggle-btn svg {
+  color: #228be6;
+}
+
+.prompt-toggle-btn.hidden {
+  display: none;
+}
+
+/* Main PromptBox Container */
 .ai-prompt-box {
   position: fixed;
-  width: 320px;
+  width: 300px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   overflow: hidden;
+  border: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .ai-prompt-box.hidden {
   display: none;
+  opacity: 0;
+  transform: scale(0.95);
 }
 
+/* Header and Drag Handle */
 .drag-handle {
   padding: 12px 16px;
   background: #f8f9fa;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e9ecef;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,15 +60,79 @@
   user-select: none;
 }
 
+.handle-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .handle-icon {
   color: #adb5bd;
   font-size: 14px;
 }
 
+.minimize-btn {
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #868e96;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s;
+}
+
+.minimize-btn:hover {
+  background-color: #e9ecef;
+}
+
+/* Content Area */
 .prompt-content {
   padding: 16px;
 }
 
+/* Tabs */
+.tabs {
+  display: flex;
+  margin: -16px -16px 16px -16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #495057;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.tab-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.tab-btn.active {
+  color: #228be6;
+  font-weight: 500;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #228be6;
+}
+
+/* Add Prompt Section */
 .add-prompt {
   display: flex;
   gap: 8px;
@@ -45,45 +145,67 @@
   border: 1px solid #dee2e6;
   border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.15s;
+  transition: all 0.15s;
 }
 
 .add-prompt input:focus {
   outline: none;
   border-color: #228be6;
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1);
 }
 
+/* Prompts List */
 .prompts-list {
   max-height: 400px;
   overflow-y: auto;
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+.prompts-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prompts-list::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+.prompts-list::-webkit-scrollbar-thumb {
+  background: #dee2e6;
+  border-radius: 3px;
 }
 
 .prompt-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: 8px;
   transition: background-color 0.15s;
+  margin-bottom: 8px;
 }
 
 .prompt-item:hover {
   background: #f8f9fa;
 }
 
+.prompt-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
 .prompt-number {
   color: #868e96;
   font-size: 12px;
-  width: 24px;
+  min-width: 24px;
   text-align: center;
 }
 
 .prompt-text {
-  flex: 1;
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
   color: #495057;
+  word-break: break-word;
 }
 
 .prompt-actions {
@@ -91,59 +213,111 @@
   gap: 4px;
   opacity: 0;
   transition: opacity 0.2s;
+  margin-top: 8px;
 }
 
 .prompt-item:hover .prompt-actions {
   opacity: 1;
 }
 
+/* Buttons */
 .action-btn {
-  padding: 6px 12px;
+  padding: 6px;
   border: none;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.15s;
   background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background: #e9ecef;
 }
 
 .action-btn.add {
   background: #228be6;
   color: white;
+  padding: 8px 12px;
 }
 
 .action-btn.add:hover {
   background: #1c7ed6;
 }
 
-.edit-container {
-  flex: 1;
-  display: flex;
-  gap: 8px;
+.copy-btn {
+  color: #228be6;
 }
 
-.edit-input {
-  flex: 1;
-  padding: 6px 12px;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.edit-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.save-btn {
-  color: #40c057;
-}
-
-.cancel-btn {
+.delete-btn {
   color: #fa5252;
 }
 
-.edit-btn {
-  color: #228be6;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ai-prompt-box {
+    width: 280px;
+  }
+  
+  .prompt-toggle-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .prompt-toggle-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .prompt-toggle-btn,
+  .ai-prompt-box {
+    background: #2d333b;
+  }
+  
+  .drag-handle {
+    background: #22272e;
+    border-color: #444c56;
+    color: #adbac7;
+  }
+  
+  .prompt-text {
+    color: #adbac7;
+  }
+  
+  .tab-btn {
+    color: #adbac7;
+  }
+  
+  .tab-btn:hover {
+    background-color: #22272e;
+  }
+  
+  .prompt-item:hover {
+    background: #22272e;
+  }
+  
+  .action-btn {
+    background: #22272e;
+    color: #adbac7;
+  }
+  
+  .action-btn:hover {
+    background: #2d333b;
+  }
+  
+  .add-prompt input {
+    background: #22272e;
+    border-color: #444c56;
+    color: #adbac7;
+  }
+  
+  .add-prompt input:focus {
+    border-color: #539bf5;
+    box-shadow: 0 0 0 3px rgba(83, 155, 245, 0.1);
+  }
 }
